@@ -1,0 +1,30 @@
+.choice {
+  width: 90%;
+  height: 70px;
+  padding-bottom:10px;
+  margin: 10px auto;
+  display:block;
+  font-size: 1.5em;
+}
+
+.green {
+  background-color: forestgreen;
+}
+
+.red {
+  background-color: red;
+}
+
+#current-word {
+  font-size: 3em;
+}
+
+#kanji {
+  font-size: 1.5em;
+}
+
+#word-container {
+  height: 140px;
+  text-align: center;
+  padding-top: 40px;
+}

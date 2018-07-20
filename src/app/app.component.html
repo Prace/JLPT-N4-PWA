@@ -7,7 +7,11 @@
     <br>
     <div *ngIf="currentMeanings" class="container"></div>
       <div *ngFor="let m of currentMeanings" class="row">
-        <button class="btn btn-primary choice" [ngClass]="setSolutionColor(m.correct)" (click)="revealSolution()">{{m?.value}} </button>
+        <div class="choice" [ngClass]="setSolutionColor(m.correct)" (click)="revealSolution(m.correct)">{{m?.value}} </div>
+      </div>
+      <br>
+      <div class="row answer-counter">
+        Correct: {{correctAnswersCounter}} - Wrong: {{wrongAnswersCounter}}
       </div>
     </div>
   </div>

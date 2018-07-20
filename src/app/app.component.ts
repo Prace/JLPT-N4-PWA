@@ -13,6 +13,8 @@ export class AppComponent implements OnInit {
   public currentWord: Word;
   public currentMeanings: Array<IChoice>;
   public showSolution: boolean;
+  public correctAnswersCounter: number;
+  public wrongAnswersCounter: number;
 
   ngOnInit() {
     this.words = words;
@@ -20,6 +22,8 @@ export class AppComponent implements OnInit {
     this.wordNumber = this.otherMeanings.length;
     this.showSolution = false;
     this.nextWord();
+    this.correctAnswersCounter = 0;
+    this.wrongAnswersCounter = 0;
   }
 
   private getRandomInt(min: number , max: number): number {
@@ -57,12 +61,13 @@ export class AppComponent implements OnInit {
     this.currentMeanings = this.shuffleInPlace(this.getMeanings(this.currentWord.translation));
   }
 
-  public revealSolution(): void {
+  public revealSolution(correctAnswer: boolean): void {
     if (this.showSolution) {
       this.nextWord();
     }
     else {
       this.showSolution = true;
+      correctAnswer ? this.correctAnswersCounter++ : this.wrongAnswersCounter++;
     }
   }
 

@@ -5,6 +5,10 @@
   margin: 10px auto;
   display:block;
   font-size: 1.5em;
+  color: #fff;
+  background-color: cornflowerblue;
+  text-align: center;
+  line-height: 70px; /* same as height! */
 }
 
 .green {
@@ -13,6 +17,11 @@
 
 .red {
   background-color: red;
+}
+
+.answer-counter {
+  font-size: 1.5em;
+  text-align: center;
 }
 
 #current-word {

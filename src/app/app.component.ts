@@ -1,29 +1,35 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {IChoice, Word, words} from './words/words';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   public words: Array<Word>;
   public otherMeanings: Array<string>;
   public wordNumber: number;
   public currentWord: Word;
   public currentMeanings: Array<IChoice>;
-  public showSolution: boolean;
-  public correctAnswersCounter: number;
-  public wrongAnswersCounter: number;
+  public showSolution = false;
+  public correctAnswersCounter = 0;
+  public wrongAnswersCounter = 0;
+  public answerTime = 5000;
+  public remainingTimeMs = 5000;
+  private timerSubscription: any;
 
   ngOnInit() {
     this.words = words;
     this.otherMeanings = words.map(a => a.translation);
     this.wordNumber = this.otherMeanings.length;
-    this.showSolution = false;
     this.nextWord();
-    this.correctAnswersCounter = 0;
-    this.wrongAnswersCounter = 0;
+    this.timerSubscription = this.startTimer();
+  }
+
+  ngOnDestroy() {
+    this.timerSubscription.unsubscribe();
   }
 
   private getRandomInt(min: number , max: number): number {
@@ -55,17 +61,29 @@ export class AppComponent implements OnInit {
     return array;
   }
 
+  private startTimer(): any {
+    return interval(100).subscribe(() => {
+      if (!this.showSolution) {
+        this.remainingTimeMs -= 100;
+        if (this.remainingTimeMs < 0) {
+          this.revealSolution(false);
+          this.remainingTimeMs = this.answerTime;
+        }
+      }
+    });
+  }
+
   public nextWord() {
-    this.showSolution = false;
     this.currentWord = this.words[this.getRandomInt(0, this.wordNumber)];
     this.currentMeanings = this.shuffleInPlace(this.getMeanings(this.currentWord.translation));
   }
 
   public revealSolution(correctAnswer: boolean): void {
+    this.remainingTimeMs = this.answerTime;
     if (this.showSolution) {
+      this.showSolution = false;
       this.nextWord();
-    }
-    else {
+    } else {
       this.showSolution = true;
       correctAnswer ? this.correctAnswersCounter++ : this.wrongAnswersCounter++;
     }
@@ -76,4 +94,6 @@ export class AppComponent implements OnInit {
       return correct ? 'green' : 'red';
     }
   }
+
+
 }

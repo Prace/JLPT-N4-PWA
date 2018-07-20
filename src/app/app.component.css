@@ -1,9 +1,9 @@
 .choice {
-  width: 90%;
+  width: 85%;
   height: 70px;
   padding-bottom:10px;
   margin: 10px auto;
-  display:block;
+  display: inline-block;
   font-size: 1.5em;
   color: #fff;
   background-color: cornflowerblue;
@@ -24,6 +24,15 @@
   text-align: center;
 }
 
+.answer-counter span {
+  margin: 0 auto;
+}
+
+.progress-bar-container{
+  width: 85%;
+  margin: 30px auto 0 auto;
+}
+
 #current-word {
   font-size: 3em;
 }
@@ -35,5 +44,5 @@
 #word-container {
   height: 140px;
   text-align: center;
-  padding-top: 40px;
+  padding-top: 20px;
 }

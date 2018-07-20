@@ -4,14 +4,20 @@
       <div id="current-word">{{currentWord?.furigana}}</div>
       <div id="kanji" *ngIf="currentWord?.kanji">({{currentWord.kanji}})</div>
     </div>
-    <br>
     <div *ngIf="currentMeanings" class="container"></div>
       <div *ngFor="let m of currentMeanings" class="row">
         <div class="choice" [ngClass]="setSolutionColor(m.correct)" (click)="revealSolution(m.correct)">{{m?.value}} </div>
       </div>
       <br>
       <div class="row answer-counter">
-        Correct: {{correctAnswersCounter}} - Wrong: {{wrongAnswersCounter}}
+        <span>Correct: {{correctAnswersCounter}} - Wrong: {{wrongAnswersCounter}}</span>
+      </div>
+      <div class="progress-bar-container">
+        <ngb-progressbar type="success" [value]="(remainingTimeMs/answerTime)*100"></ngb-progressbar>
       </div>
     </div>
   </div>
+
+
+
+

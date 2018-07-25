@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ApplicationRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {IChoice, Word, words} from './words/words';
 import { interval } from 'rxjs';
 
@@ -20,12 +20,14 @@ export class AppComponent implements OnInit, OnDestroy {
   public remainingTimeMs = 5000;
   private timerSubscription: any;
 
+  constructor(private applicationRef: ApplicationRef) {}
+
+
   ngOnInit() {
     this.words = words;
     this.otherMeanings = words.map(a => a.translation);
     this.wordNumber = this.otherMeanings.length;
     this.nextWord();
-    this.timerSubscription = this.startTimer();
   }
 
   ngOnDestroy() {
@@ -59,18 +61,6 @@ export class AppComponent implements OnInit, OnDestroy {
       [array[i], array[randomChoiceIndex]] = [array[randomChoiceIndex], array[i]];
     }
     return array;
-  }
-
-  private startTimer(): any {
-    return interval(100).subscribe(() => {
-      if (!this.showSolution) {
-        this.remainingTimeMs -= 100;
-        if (this.remainingTimeMs < 0) {
-          this.revealSolution(false);
-          this.remainingTimeMs = this.answerTime;
-        }
-      }
-    });
   }
 
   public nextWord() {

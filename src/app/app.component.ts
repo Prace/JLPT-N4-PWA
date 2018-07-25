@@ -1,6 +1,7 @@
 import { ApplicationRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {IChoice, Word, words} from './words/words';
 import { interval } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,14 @@ export class AppComponent implements OnInit, OnDestroy {
   public answerTime = 5000;
   public remainingTimeMs = 5000;
   private timerSubscription: any;
+  public deferredPrompt: any;
 
-  constructor(private applicationRef: ApplicationRef) {}
+  constructor(private applicationRef: ApplicationRef) {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+    });
+  }
 
 
   ngOnInit() {
@@ -85,5 +92,17 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-
+  public openA2HSDialog(e){
+    this.deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    this.deferredPrompt.userChoice
+      .then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the A2HS prompt');
+        } else {
+          console.log('User dismissed the A2HS prompt');
+        }
+        this.deferredPrompt = null;
+      });
+  }
 }
